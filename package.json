@@ -1,5 +1,10 @@
 {
-  "scripts": {
-		"start": "ts-node -O '{\"strictNullChecks\":true,\"noImplicitAny\":true,\"jsx\":\"react\",\"typeRoots\":[\"types\"],\"baseUrl\":\"types\",\"lib\":[\"es2015\",\"dom\"]}' thingy.ts"
-	}
+		"scripts": {
+				"start": "ts-node -O '{\"strictNullChecks\":true,\"noImplicitAny\":true,\"jsx\":\"react\",\"typeRoots\":[\"types\"],\"baseUrl\":\"types\",\"lib\":[\"es2015\",\"dom\"]}' thingy.ts"
+		},
+		"devDependencies": {
+				"array-flatten": "^2.1.2",
+				"ts-node": "^8.2.0",
+				"typescript": "^3.5.1"
+		}
 }

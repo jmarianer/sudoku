@@ -1,33 +1,12 @@
-class Region {
-  cell_indexes: Set<number> = new Set();
-  name: string;
-}
-
-class Cell {
-  value?: number;
-  possibilities: Set<number> = new Set();
-}
-
-class Board {
-  cells: Cell[] = [];
-  regions: Region[] = [];
-}
+import { Region, Cell, Board } from './types';
+import boardTemplate = require('./templates/board');
 
 function display(board: Board) {
   let s = "";
 
   for (let region of board.regions) {
     s += region.name + ":\n";
-    for (let i=0; i<81; i++) {
-      if (region.cell_indexes.has(i))
-        s += "X";
-      else
-        s += "o";
-
-      if (i % 9 == 8)
-        s += "\n";
-    }
-    s += "\n";
+    s += boardTemplate(board, region);
   }
 
   return s;
