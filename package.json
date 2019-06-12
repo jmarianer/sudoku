@@ -1,0 +1,5 @@
+{
+  "scripts": {
+		"start": "ts-node -O '{\"noImplicitAny\":true,\"jsx\":\"react\",\"typeRoots\":[\"types\"],\"baseUrl\":\"types\"}' thingy.ts"
+	}
+}
