@@ -1,5 +1,5 @@
 {
   "scripts": {
-		"start": "ts-node -O '{\"noImplicitAny\":true,\"jsx\":\"react\",\"typeRoots\":[\"types\"],\"baseUrl\":\"types\"}' thingy.ts"
+		"start": "ts-node -O '{\"strictNullChecks\":true,\"noImplicitAny\":true,\"jsx\":\"react\",\"typeRoots\":[\"types\"],\"baseUrl\":\"types\",\"lib\":[\"es2015\",\"dom\"]}' thingy.ts"
 	}
 }
