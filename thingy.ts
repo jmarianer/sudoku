@@ -7,7 +7,6 @@ function union<T>(xs: Set<T>, ...yss: Set<T>[]) {
       Array.from(xs)));
 }
 
-
 function difference<T>(xs: Set<T>, ...yss: Set<T>[]) {
   return new Set(
     yss.reduce(
@@ -59,7 +58,7 @@ for (let i = 0; i < 9; i++) {
   board.regions.push(region);
 }
 
-let initialBoard = [
+let easyBoard = [
   0, 4, 0, 8, 1, 2, 0, 0, 0,
   0, 0, 0, 4, 0, 0, 0, 7, 0,
   9, 0, 1, 0, 0, 0, 2, 0, 8,
@@ -69,8 +68,21 @@ let initialBoard = [
   7, 0, 2, 0, 0, 0, 3, 0, 4,
   0, 1, 0, 0, 0, 9, 0, 0, 0,
   0, 0, 0, 5, 2, 7, 0, 8, 0,
-]
+];
 
+let hardBoard = [
+  2, 0, 0, 8, 0, 0, 0, 0, 9,
+  0, 7, 0, 0, 0, 0, 0, 5, 0,
+  0, 0, 0, 0, 1, 4, 0, 0, 2,
+  6, 0, 0, 0, 0, 0, 0, 2, 0,
+  8, 0, 2, 5, 3, 9, 6, 0, 4,
+  0, 3, 0, 0, 0, 0, 0, 0, 8,
+  9, 0, 0, 3, 2, 0, 0, 0, 0,
+  0, 5, 0, 0, 0, 0, 0, 1, 0,
+  1, 0, 0, 0, 0, 8, 0, 0, 3,
+];
+
+let initialBoard = easyBoard;
 board.cells = initialBoard.map(cell);
 let boards = [boardTemplate(board)];
 
