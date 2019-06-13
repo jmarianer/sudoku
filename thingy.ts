@@ -4,12 +4,16 @@ import baseTemplate = require('./templates/base');
 
 function cell(i: number) {
   let cell = new Cell;
-  cell.possibilities = new Set([i]);
+  if (i > 0)
+    cell.possibilities = new Set([i]);
+  else
+    cell.possibilities = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   return cell;
 }
 
 function display(board: Board) {
   return baseTemplate("", {title: "foo"},
+    //boardTemplate(board));
     ...board.regions.map((region) => boardTemplate(board, region)));
 }
 
@@ -34,12 +38,20 @@ for (let i = 0; i < 9; i++) {
   region.cell_indexes = new Set(block.map((j)=>j+block_start[i]));
   board.regions.push(region);
 }
-for (let i = 0; i < 81; i++) {
-  let cell = new Cell;
-  cell.possibilities = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-  board.cells.push(cell);
-}
 
-board.cells[0] = cell(5);
+let initialBoard = [
+  0, 4, 0, 8, 1, 2, 0, 0, 0,
+  0, 0, 0, 4, 0, 0, 0, 7, 0,
+  9, 0, 1, 0, 0, 0, 2, 0, 8,
+  0, 0, 3, 0, 8, 5, 4, 6, 0,
+  6, 0, 8, 0, 0, 0, 9, 0, 5,
+  0, 5, 9, 6, 7, 0, 8, 0, 0,
+  7, 0, 2, 0, 0, 0, 3, 0, 4,
+  0, 1, 0, 0, 0, 9, 0, 0, 0,
+  0, 0, 0, 5, 2, 7, 0, 8, 0,
+]
 
-console.log(display(board));
+board.cells = initialBoard.map(cell);
+let boards = [boardTemplate(board)];
+
+console.log(baseTemplate("", {title: "foo"}, ...boards));
