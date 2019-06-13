@@ -27,7 +27,7 @@ function cell(i: number) {
   if (i > 0)
     cell.possibilities = new Set([i]);
   else
-    cell.possibilities = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    cell.possibilities = new Set();
   return cell;
 }
 
@@ -74,14 +74,33 @@ let initialBoard = [
 board.cells = initialBoard.map(cell);
 let boards = [boardTemplate(board)];
 
+function getUsedNums(board: Board, region: Region) {
+  return new Set(
+    Array.from(region.cell_indexes)
+    .map((index) => board.cells[index].value())
+    .filter(notEmpty));
+}
+
+function initial() {
+  board.cells.forEach((cell, index) => {
+    if (cell.hasValue())
+      return;
+    let poss = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    for (let region of board.regions) {
+      if (region.cell_indexes.has(index)) {
+        poss = difference(poss, getUsedNums(board, region));
+      }
+    }
+    cell.possibilities = poss;
+  });
+  boards.push(boardTemplate(board));
+  return true;
+}
+
 function easy() {
   let ret = false;
   for (let region of board.regions) {
-    let usedNums: Set<number> = new Set(
-      Array.from(region.cell_indexes)
-      .map((index) => board.cells[index].value())
-      .filter(notEmpty));
-
+    let usedNums = getUsedNums(board, region);
     let changed = false;
     for (let index of Array.from(region.cell_indexes)) {
       let cell = board.cells[index]
@@ -101,7 +120,7 @@ function easy() {
   return false;
 }
 
-while (easy())
-  ;
+initial();
+while (easy()) ;
 
 console.log(baseTemplate("", {title: "foo"}, ...boards));
