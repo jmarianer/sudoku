@@ -1,4 +1,24 @@
 import { Region, Cell, Board } from './types';
+
+function union<T>(xs: Set<T>, ...yss: Set<T>[]) {
+  return new Set(
+    yss.reduce(
+      (acc, set) => acc.filter(n => set.has(n)),
+      Array.from(xs)));
+}
+
+
+function difference<T>(xs: Set<T>, ...yss: Set<T>[]) {
+  return new Set(
+    yss.reduce(
+      (acc, set) => acc.filter(n => !set.has(n)),
+      Array.from(xs)));
+}
+
+function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
+    return value !== null && value !== undefined;
+}
+
 import boardTemplate = require('./templates/board');
 import baseTemplate = require('./templates/base');
 
@@ -53,5 +73,35 @@ let initialBoard = [
 
 board.cells = initialBoard.map(cell);
 let boards = [boardTemplate(board)];
+
+function easy() {
+  let ret = false;
+  for (let region of board.regions) {
+    let usedNums: Set<number> = new Set(
+      Array.from(region.cell_indexes)
+      .map((index) => board.cells[index].value())
+      .filter(notEmpty));
+
+    let changed = false;
+    for (let index of Array.from(region.cell_indexes)) {
+      let cell = board.cells[index]
+      if (!cell.hasValue()) {
+        if (union(cell.possibilities, usedNums).size > 0) {
+          changed = true;
+          cell.possibilities = difference(cell.possibilities, usedNums);
+        }
+      }
+    }
+    if (changed) {
+      boards.push(boardTemplate(board, region));
+      return true;
+    }
+  }
+
+  return false;
+}
+
+while (easy())
+  ;
 
 console.log(baseTemplate("", {title: "foo"}, ...boards));
