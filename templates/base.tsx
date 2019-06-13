@@ -3,7 +3,7 @@ import * as React from './noreact';
 export = (script: string, l10n: any, ...body: JSX.Element[]) =>
   <html>
     <head>
-      <link rel='stylesheet' href='/style/style.css' />
+      <link rel='stylesheet' href='style.css' />
       <script src={ '/js/' + script } />
     </head>
 

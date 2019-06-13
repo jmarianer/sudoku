@@ -1,15 +1,10 @@
 import { Region, Cell, Board } from './types';
 import boardTemplate = require('./templates/board');
+import baseTemplate = require('./templates/base');
 
 function display(board: Board) {
-  let s = "";
-
-  for (let region of board.regions) {
-    s += region.name + ":\n";
-    s += boardTemplate(board, region);
-  }
-
-  return s;
+  return baseTemplate("", {title: "foo"},
+    ...board.regions.map((region) => boardTemplate(board, region)));
 }
 
 const range9: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];

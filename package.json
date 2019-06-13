@@ -4,6 +4,9 @@
 		},
 		"devDependencies": {
 				"array-flatten": "^2.1.2",
+				"combine-mq": "^0.8.1",
+				"less": "^3.9.0",
+				"less-css": "^0.1.4",
 				"ts-node": "^8.2.0",
 				"typescript": "^3.5.1"
 		}
