@@ -6,7 +6,6 @@ export class Region {
 }
 
 export class Cell {
-  value?: number;
   possibilities: Set<number> = new Set();
 }
 

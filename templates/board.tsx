@@ -1,8 +1,22 @@
 import { Region, Cell, Board } from '../types';
 import * as React from './noreact';
 
+const possCells: number[][] = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
 function cellToTd(cell: Cell, className: string) {
-  return <td class={ className } />;
+  if (cell.possibilities.size == 1) {
+    return <td class={ className }>{Array.from(cell.possibilities.values())[0]}</td>
+  }
+  return <td class={ className }>
+    <table class="possibilities">
+    { possCells.map((row) =>
+      <tr>
+      { row.map((poss) =>
+        <td> { cell.possibilities.has(poss) ? poss : "" } </td>
+      )}
+      </tr>
+    )}
+    </table>
+  </td>;
 }
 
 const range9: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
