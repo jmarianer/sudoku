@@ -1,6 +1,6 @@
 import { Region, Cell, Board } from './types';
 import { union, difference, notEmpty } from './utils';
-import boardTemplate = require('./templates/board');
+import boardTemplate = require('./templates/9x9board');
 import baseTemplate = require('./templates/base');
 
 function cell(i: number) {
@@ -10,12 +10,6 @@ function cell(i: number) {
   else
     cell.possibilities = new Set();
   return cell;
-}
-
-function display(board: Board) {
-  return baseTemplate("", {title: "foo"},
-    //boardTemplate(board));
-    ...board.regions.map((region) => boardTemplate(board, region)));
 }
 
 const range9: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];

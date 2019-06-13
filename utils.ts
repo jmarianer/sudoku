@@ -16,3 +16,6 @@ export function notEmpty<TValue>(value: TValue | null | undefined): value is TVa
     return value !== null && value !== undefined;
 }
 
+export function range(n: number) {
+  return Array.from({length: n}, (value, key) => key);
+}

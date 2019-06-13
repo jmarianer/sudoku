@@ -1,4 +1,5 @@
 import { Region, Cell, Board } from '../types';
+import { range } from '../utils';
 import * as React from './noreact';
 
 const possCells: number[][] = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
@@ -20,8 +21,7 @@ function cellToTd(cell: Cell, className: string, r: number, c: number) {
   </td>;
 }
 
-const range9: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-const boardCells: number[][] = range9.map((i)=>range9.map((j)=>i*9+j));
+const boardCells: number[][] = range(9).map((i) => range(9).map((j) => i*9+j));
 
 export = (board: Board, region?: Region) =>
   <table class="sudoku">
