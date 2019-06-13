@@ -1,38 +1,7 @@
+import { sudoku9x9 } from './boardTypes';
 import { Region, Cell, Board } from './types';
 import { union, difference, notEmpty } from './utils';
-import boardTemplate = require('./templates/9x9board');
 import baseTemplate = require('./templates/base');
-
-function cell(i: number) {
-  let cell = new Cell;
-  if (i > 0)
-    cell.possibilities = new Set([i]);
-  else
-    cell.possibilities = new Set();
-  return cell;
-}
-
-const range9: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-const block: number[] = [0, 1, 2, 9, 10, 11, 18, 19, 20];
-const block_start: number[] = [0, 3, 6, 27, 30, 33, 54, 57, 60];
-
-let board = new Board;
-for (let i = 0; i < 9; i++) {
-  let region = new Region;
-  region.name = "Row " + i;
-  region.cell_indexes = new Set(range9.map((j)=>j+i*9));
-  board.regions.push(region);
-
-  region = new Region;
-  region.name = "Column " + i;
-  region.cell_indexes = new Set(range9.map((j)=>i+j*9));
-  board.regions.push(region);
-
-  region = new Region;
-  region.name = "Block " + i;
-  region.cell_indexes = new Set(block.map((j)=>j+block_start[i]));
-  board.regions.push(region);
-}
 
 let easyBoard = [
   0, 4, 0, 8, 1, 2, 0, 0, 0,
@@ -58,9 +27,8 @@ let hardBoard = [
   1, 0, 0, 0, 0, 8, 0, 0, 3,
 ];
 
-let initialBoard = easyBoard;
-board.cells = initialBoard.map(cell);
-let boards = [boardTemplate(board)];
+let board = sudoku9x9(easyBoard);
+let boards = [board.toHtml(board)];
 
 function getUsedNums(board: Board, region: Region) {
   return new Set(
@@ -81,7 +49,7 @@ function initial() {
     }
     cell.possibilities = poss;
   });
-  boards.push(boardTemplate(board));
+  boards.push(board.toHtml(board));
   return true;
 }
 
@@ -100,7 +68,7 @@ function easy() {
       }
     }
     if (changed) {
-      boards.push(boardTemplate(board, region));
+      boards.push(board.toHtml(board, region));
       return true;
     }
   }

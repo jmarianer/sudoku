@@ -1,4 +1,5 @@
 // tslint:disable:max-classes-per-file
+import * as React from './templates/noreact';
 
 export class Region {
   cell_indexes: Set<number> = new Set();
@@ -20,4 +21,5 @@ export class Cell {
 export class Board {
   cells: Cell[] = [];
   regions: Region[] = [];
+  toHtml: (b: Board, r?: Region) => JSX.Element;
 }
