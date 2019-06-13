@@ -1,23 +1,5 @@
 import { Region, Cell, Board } from './types';
-
-function union<T>(xs: Set<T>, ...yss: Set<T>[]) {
-  return new Set(
-    yss.reduce(
-      (acc, set) => acc.filter(n => set.has(n)),
-      Array.from(xs)));
-}
-
-function difference<T>(xs: Set<T>, ...yss: Set<T>[]) {
-  return new Set(
-    yss.reduce(
-      (acc, set) => acc.filter(n => !set.has(n)),
-      Array.from(xs)));
-}
-
-function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
-    return value !== null && value !== undefined;
-}
-
+import { union, difference, notEmpty } from './utils';
 import boardTemplate = require('./templates/board');
 import baseTemplate = require('./templates/base');
 
