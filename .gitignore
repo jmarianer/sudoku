@@ -1,2 +1,7 @@
 .*.swp
 node_modules
+.vscode
+*.js
+*.js.map
+*.html
+*.css
