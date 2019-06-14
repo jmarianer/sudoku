@@ -1,6 +1,7 @@
 import { sudoku9x9 } from './boardTypes';
 import { Region, Cell, Board } from './types';
 import { union, difference, notEmpty } from './utils';
+import { pencilInitial, removeImpossibilities } from './strategies';
 import baseTemplate = require('./templates/base');
 
 let easyBoard = [
@@ -27,58 +28,26 @@ let hardBoard = [
   1, 0, 0, 0, 0, 8, 0, 0, 3,
 ];
 
-let board = sudoku9x9(easyBoard);
-let initialBoard = board.clone();
+let initialBoard = sudoku9x9(easyBoard);
+
 let boards: [string, Board, Region?][] = [];
+let strategies = [pencilInitial, removeImpossibilities];
 
-function getUsedNums(board: Board, region: Region) {
-  return new Set(
-    Array.from(region.cell_indexes)
-    .map((index) => board.cells[index].value())
-    .filter(notEmpty));
-}
-
-function initial() {
-  board.cells.forEach((cell, index) => {
-    if (cell.hasValue())
-      return;
-    let poss = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    for (let region of board.regions) {
-      if (region.cell_indexes.has(index)) {
-        poss = difference(poss, getUsedNums(board, region));
-      }
-    }
-    cell.possibilities = poss;
-  });
-  boards.push(["Pencil in all values", board.clone(), undefined]);
-  return true;
-}
-
-function easy() {
-  let ret = false;
-  for (let region of board.regions) {
-    let usedNums = getUsedNums(board, region);
-    let changed = false;
-    for (let index of Array.from(region.cell_indexes)) {
-      let cell = board.cells[index]
-      if (!cell.hasValue()) {
-        if (union(cell.possibilities, usedNums).size > 0) {
-          changed = true;
-          cell.possibilities = difference(cell.possibilities, usedNums);
-        }
-      }
-    }
-    if (changed) {
-      boards.push(["foo", board.clone(), region]);
-      return true;
+let board = initialBoard.clone();
+let changed = true;
+while (changed) {
+  changed = false;
+  for (let strategy of strategies) {
+    let strategyOut = strategy(board);
+    if (notEmpty(strategyOut)) {
+      let [text, newBoard, region] = strategyOut;
+      board = newBoard.clone();
+      boards.push([text, newBoard, region]);
+      changed = true;
+      break;
     }
   }
-
-  return false;
 }
-
-initial();
-while (easy()) ;
 
 console.log(baseTemplate("", {title: "foo"},
   initialBoard.toHtml(initialBoard),
