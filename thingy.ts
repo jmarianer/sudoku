@@ -28,7 +28,8 @@ let hardBoard = [
 ];
 
 let board = sudoku9x9(easyBoard);
-let boards = [board.toHtml(board)];
+let initialBoard = board.clone();
+let boards: [string, Board, Region?][] = [];
 
 function getUsedNums(board: Board, region: Region) {
   return new Set(
@@ -49,7 +50,7 @@ function initial() {
     }
     cell.possibilities = poss;
   });
-  boards.push(board.toHtml(board));
+  boards.push(["Pencil in all values", board.clone(), undefined]);
   return true;
 }
 
@@ -68,7 +69,7 @@ function easy() {
       }
     }
     if (changed) {
-      boards.push(board.toHtml(board, region));
+      boards.push(["foo", board.clone(), region]);
       return true;
     }
   }
@@ -79,4 +80,6 @@ function easy() {
 initial();
 while (easy()) ;
 
-console.log(baseTemplate("", {title: "foo"}, ...boards));
+console.log(baseTemplate("", {title: "foo"},
+  initialBoard.toHtml(initialBoard),
+  ...boards.map(([text, board, region]) => board.toHtml(board, region))));
