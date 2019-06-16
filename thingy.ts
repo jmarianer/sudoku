@@ -62,9 +62,15 @@ while (changed) {
   }
 }
 
-let html = boards.map(([text, board, region]) => [header(text), board.toHtml(board, region)]);
+let html: JSX.Element[] = [];
+let previousBoard = initialBoard;
+for (let [text, board, region] of boards) {
+  html.push(header(text));
+  html.push(board.toHtml(previousBoard, board, region));
+  previousBoard = board;
+}
 
 console.log(baseTemplate("", {title: "Sudoku solver"},
   header("Initial board"),
-  initialBoard.toHtml(initialBoard),
-  ...Array.prototype.concat.apply(html)));
+  initialBoard.toHtml(initialBoard, initialBoard),
+  ...html));

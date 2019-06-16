@@ -34,7 +34,7 @@ export class Cell {
 export class Board {
   cells: Cell[] = [];
   regions: Region[] = [];
-  toHtml: (b: Board, r?: Region) => JSX.Element;
+  toHtml: (pb: Board, b: Board, r?: Region) => JSX.Element;
 
   clone() {
     let that = new Board;
