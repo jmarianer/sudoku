@@ -2,8 +2,7 @@ import { sudoku9x9 } from './boardTypes';
 import { Region, Cell, Board } from './types';
 import { union, difference, notEmpty } from './utils';
 import { pencilInitial, removeImpossibilities, lastCandidate } from './strategies';
-import baseTemplate = require('./templates/base');
-import header = require('./templates/header');
+import { slide, slideshow } from './templates/slideshow';
 
 let easyBoard = [
   0, 4, 0, 8, 1, 2, 0, 0, 0,
@@ -62,15 +61,12 @@ while (changed) {
   }
 }
 
-let html: JSX.Element[] = [];
+let slides: JSX.Element[] = [slide("Initial board", initialBoard.toHtml(initialBoard, initialBoard))];
 let previousBoard = initialBoard;
 for (let [text, board, region] of boards) {
-  html.push(header(text));
-  html.push(board.toHtml(previousBoard, board, region));
+  slides.push(slide(text, board.toHtml(previousBoard, board, region)));
   previousBoard = board;
 }
+slides.push(slide("Final board", board.toHtml(board, board)));
 
-console.log(baseTemplate("", {title: "Sudoku solver"},
-  header("Initial board"),
-  initialBoard.toHtml(initialBoard, initialBoard),
-  ...html));
+console.log(slideshow("Sudoku solver", slides));
