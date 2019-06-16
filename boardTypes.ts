@@ -9,17 +9,17 @@ export function sudoku9x9(elements: number[]) {
   let board = new Board;
   range(9).forEach((i) => {
     let region = new Region;
-    region.name = "Row " + i;
+    region.name = "Row " + (i+1);
     region.cell_indexes = new Set(range(9).map((j) => j+i*9));
     board.regions.push(region);
 
     region = new Region;
-    region.name = "Column " + i;
+    region.name = "Column " + (i+1);
     region.cell_indexes = new Set(range(9).map((j) => i+j*9));
     board.regions.push(region);
 
     region = new Region;
-    region.name = "Block " + i;
+    region.name = "Block " + (i+1);
     region.cell_indexes = new Set(blockDeltas.map((j) => j+blockStarts[i]));
     board.regions.push(region);
   });
