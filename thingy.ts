@@ -3,6 +3,7 @@ import { Region, Cell, Board } from './types';
 import { union, difference, notEmpty } from './utils';
 import { pencilInitial, removeImpossibilities } from './strategies';
 import baseTemplate = require('./templates/base');
+import header = require('./templates/header');
 
 let easyBoard = [
   0, 4, 0, 8, 1, 2, 0, 0, 0,
@@ -28,7 +29,7 @@ let hardBoard = [
   1, 0, 0, 0, 0, 8, 0, 0, 3,
 ];
 
-let initialBoard = sudoku9x9(easyBoard);
+let initialBoard = sudoku9x9(hardBoard);
 
 let boards: [string, Board, Region?][] = [];
 let strategies = [pencilInitial, removeImpossibilities];
@@ -49,6 +50,9 @@ while (changed) {
   }
 }
 
-console.log(baseTemplate("", {title: "foo"},
+let html = boards.map(([text, board, region]) => [header(text), board.toHtml(board, region)]);
+
+console.log(baseTemplate("", {title: "Sudoku solver"},
+  header("Initial board"),
   initialBoard.toHtml(initialBoard),
-  ...boards.map(([text, board, region]) => board.toHtml(board, region))));
+  ...Array.prototype.concat.apply(html)));
