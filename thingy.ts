@@ -1,7 +1,7 @@
 import { sudoku9x9 } from './boardTypes';
 import { Region, Cell, Board } from './types';
 import { union, difference, notEmpty } from './utils';
-import { pencilInitial, removeImpossibilities } from './strategies';
+import { pencilInitial, removeImpossibilities, lastCandidate } from './strategies';
 import baseTemplate = require('./templates/base');
 import header = require('./templates/header');
 
@@ -15,6 +15,18 @@ let easyBoard = [
   7, 0, 2, 0, 0, 0, 3, 0, 4,
   0, 1, 0, 0, 0, 9, 0, 0, 0,
   0, 0, 0, 5, 2, 7, 0, 8, 0,
+];
+
+let testLastCandidate = [
+  1, 2, 3, 4, 5, 6, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 8, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 8,
 ];
 
 let hardBoard = [
@@ -32,7 +44,7 @@ let hardBoard = [
 let initialBoard = sudoku9x9(hardBoard);
 
 let boards: [string, Board, Region?][] = [];
-let strategies = [pencilInitial, removeImpossibilities];
+let strategies = [pencilInitial, removeImpossibilities, lastCandidate];
 
 let board = initialBoard.clone();
 let changed = true;

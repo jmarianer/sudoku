@@ -48,3 +48,24 @@ export function removeImpossibilities(board: Board): [string, Board, Region] | u
     }
   }
 }
+
+export function lastCandidate(board: Board): [string, Board, Region] | undefined {
+  // TODO: Factor out "all possibilities", probably as a property on the board
+  for (let i of [1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+    let changed = false;
+    for (let region of board.regions) {
+      let count = Array.from(region.cell_indexes).filter(index => !board.cells[index].hasValue() && board.cells[index].possibilities.has(i)).length;
+      if (count == 1) {
+        changed = true;
+        for (let index of Array.from(region.cell_indexes)) {
+          let cell = board.cells[index]
+          if (cell.possibilities.has(i)) {
+            cell.possibilities = new Set([i]);
+            return ["Mark the last occurrence of " + i + " in " + region.name, board, region];
+          }
+        }
+      }
+    }
+  };
+  return undefined;
+}
